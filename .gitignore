@@ -1,0 +1,68 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment and Python-related files
+env/
+venv/
+ENV/
+
+# Environment variables file
+.env
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+*.egg-info/
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test, coverage, and report files
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# PyInstaller
+*.spec
+
+# IDE/editor directories and files
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Compiled Solidity files (if generated)
+*.bin
+*.abi
+
+# macOS system files
+.DS_Store
+
+# Temporary files and directories
+tmp/
+temp/
+
+# Testing folder
+testing/

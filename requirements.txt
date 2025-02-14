@@ -1,0 +1,6 @@
+python-dotenv
+web3
+langchain
+langchain-openai
+langchain-community
+openai
