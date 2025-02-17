@@ -293,7 +293,7 @@ def get_token_price(token_symbol: str) -> str:
             return f"Price data for token {token_symbol.upper()} not found."
         derivedUSD = token_data.get("derivedUSD", "N/A")
         derivedETH = token_data.get("derivedETH", "N/A")
-        return f"Price of {token_symbol.upper()}: {derivedUSD} USD, {derivedETH} ETH."
+        return f"Price of {token_symbol.upper()}: {derivedUSD} USD, {derivedETH} BTC."
     except Exception as e:
         return f"Failed to get price data: {e}"
 
