@@ -84,7 +84,7 @@ token_bytecode = compiled_sol["contracts"]["MyToken.sol"]["MyToken"]["evm"]["byt
 # Router & Token Configuration
 # =====================================
 DUMPY_ROUTER_ADDRESS = "0xe3eB6Aa5CFB0BdA17C22128A58830EBC8Ecb74C3"
-with open("ABIs/new_router_abi.json", "r") as f:
+with open("plugins/yield_optimizer/new_router_abi.json", "r") as f:
     router_abi = json.load(f)
 router_contract = web3.eth.contract(address=DUMPY_ROUTER_ADDRESS, abi=router_abi)
 

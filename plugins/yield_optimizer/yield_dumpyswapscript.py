@@ -30,16 +30,16 @@ DUMPY_ROUTER_ADDRESS = "0xe3eB6Aa5CFB0BdA17C22128A58830EBC8Ecb74C3"  # Dumpy's r
 
 # SmartRouter details
 SMART_ROUTER_ADDRESS = "0xf7458e9De34a2B34B48866336F48123F6dE4d303"
-with open("ABIs/smart_router_abi.json", "r") as sr_abi_file:
+with open("plugins/yield_optimizer/smart_router_abi.json", "r") as sr_abi_file:
     smart_router_abi = json.load(sr_abi_file)
 smart_router_contract = web3.eth.contract(address=SMART_ROUTER_ADDRESS, abi=smart_router_abi)
 
-with open("ABIs/new_router_abi.json", "r") as abi_file:
+with open("plugins/yield_optimizer/new_router_abi.json", "r") as abi_file:
     dumpy_router_abi = json.load(abi_file)
 dumpy_router_contract = web3.eth.contract(address=DUMPY_ROUTER_ADDRESS, abi=dumpy_router_abi)
 
 # -----------------------------------------------------------------------------
-# ERC-20 Minimal ABI (with transfer, balanceOf, approve, allowance)
+# ERC‑20 Minimal ABI (with transfer, balanceOf, approve, allowance, decimals)
 # -----------------------------------------------------------------------------
 ERC20_ABI = json.loads(
     '''
@@ -83,6 +83,14 @@ ERC20_ABI = json.loads(
         "name": "transfer",
         "outputs": [{"name": "", "type": "bool"}],
         "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [{"name": "", "type": "uint8"}],
+        "stateMutability": "view",
         "type": "function"
       }
     ]
@@ -179,6 +187,16 @@ def get_token_address_by_symbol(symbol: str) -> str:
         raise Exception(f"Token with symbol '{symbol}' not found. Available: {', '.join(available_symbols)}")
 
 # -----------------------------------------------------------------------------
+# New Helper: Get Token Address from Symbol or Contract Address
+# -----------------------------------------------------------------------------
+def get_token_address(identifier: str) -> str:
+    # If the identifier is a valid address, return it in checksum format.
+    if identifier.startswith("0x") and len(identifier) == 42 and web3.is_address(identifier):
+        return web3.to_checksum_address(identifier)
+    # Otherwise, lookup by symbol.
+    return get_token_address_by_symbol(identifier)
+
+# -----------------------------------------------------------------------------
 # New Function: List All Tokens from the Subgraph
 # -----------------------------------------------------------------------------
 def list_all_tokens() -> list:
@@ -206,7 +224,7 @@ def list_swap_capabilities() -> str:
         return "No tokens found on Dumpy."
 
 # -----------------------------------------------------------------------------
-# Helper Function for Approval (Zero-Then-Approve Pattern)
+# Helper Function for Approval (Zero‑Then‑Approve Pattern)
 # -----------------------------------------------------------------------------
 def approve_if_needed(token_contract, amount_wei):
     current_allowance = token_contract.functions.allowance(sender_address, DUMPY_ROUTER_ADDRESS).call()
@@ -302,20 +320,33 @@ def get_token_price(token_symbol: str) -> str:
 # -----------------------------------------------------------------------------
 def swap_tokens_by_symbol(from_symbol: str, to_symbol: str, amount: float, min_amount_out: float = 0.000000000000001):
     unwrap_output = False
+    # If the output token is BTC (or symbol) then set unwrap flag and map to wrapped BTC.
     if to_symbol.lower() == "btc":
         unwrap_output = True
         to_symbol = "wtbtc"
     
     try:
-        token_in_address = get_token_address_by_symbol(from_symbol)
-        token_out_address = get_token_address_by_symbol(to_symbol)
+        token_in_address = get_token_address(from_symbol)
+        token_out_address = get_token_address(to_symbol)
     except Exception as e:
         return f"Token lookup error: {e}"
     
-    amount_wei = int(amount * 10**18)
-    min_amount_out_wei = int(min_amount_out * 10**18)
+    # Get decimals for token in and token out. Default to 18 if not available.
+    try:
+        token_in_contract = web3.eth.contract(address=token_in_address, abi=ERC20_ABI)
+        token_in_decimals = token_in_contract.functions.decimals().call()
+    except Exception:
+        token_in_decimals = 18
+    try:
+        token_out_contract = web3.eth.contract(address=token_out_address, abi=ERC20_ABI)
+        token_out_decimals = token_out_contract.functions.decimals().call()
+    except Exception:
+        token_out_decimals = 18
+
+    amount_wei = int(amount * 10**token_in_decimals)
+    min_amount_out_wei = int(min_amount_out * 10**token_out_decimals)
     deadline = int(time.time()) + 600
-    token_in_contract = web3.eth.contract(address=token_in_address, abi=ERC20_ABI)
+
     approve_if_needed(token_in_contract, amount_wei)
     
     try:
@@ -361,7 +392,7 @@ def swap_tokens_by_symbol(from_symbol: str, to_symbol: str, amount: float, min_a
         print(f"  Transaction Hash: {receipt.transactionHash.hex()}")
         print(f"  Gas Used: {receipt.gasUsed}")
         print(f"  Status: {'Success' if receipt.status == 1 else 'Failed'}")
-        out_amount = out_amount_wei / 10**18
+        out_amount = out_amount_wei / (10**token_out_decimals)
         
         if unwrap_output:
             try:
@@ -411,7 +442,7 @@ def swap_tokens_by_symbol(from_symbol: str, to_symbol: str, amount: float, min_a
                 out_amount_wei = simulated_output[-1]
             else:
                 out_amount_wei = simulated_output
-            out_amount = out_amount_wei / 10**18
+            out_amount = out_amount_wei / (10**token_out_decimals)
             signed_smart_swap_tx = web3.eth.account.sign_transaction(smart_swap_tx, PRIVATE_KEY)
             tx_hash = web3.eth.send_raw_transaction(signed_smart_swap_tx.raw_transaction)
             print(f"SmartRouter swap transaction sent. TX Hash: {tx_hash.hex()}")
@@ -459,7 +490,7 @@ def transfer_token(token_symbol: str, recipient: str, amount: float) -> str:
             return f"❌ Transfer failed: {e}"
     else:
         try:
-            token_address = get_token_address_by_symbol(token_symbol)
+            token_address = get_token_address(token_symbol)
         except Exception as e:
             return f"Token lookup error: {e}"
         amount_wei = int(amount * 10**18)
@@ -497,7 +528,7 @@ def get_token_balance(token_symbol: str) -> str:
             return f"Failed to get native BTC balance: {e}"
     else:
         try:
-            token_address = get_token_address_by_symbol(token_symbol)
+            token_address = get_token_address(token_symbol)
         except Exception as e:
             return f"Token lookup error: {e}"
         token_contract = web3.eth.contract(address=token_address, abi=ERC20_ABI)
@@ -513,8 +544,8 @@ def get_token_balance(token_symbol: str) -> str:
 # -----------------------------------------------------------------------------
 def remove_liquidity(token_symbol: str, pair_token: str) -> str:
     try:
-        tokenA_address = get_token_address_by_symbol(token_symbol)
-        tokenB_address = get_token_address_by_symbol(pair_token)
+        tokenA_address = get_token_address(token_symbol)
+        tokenB_address = get_token_address(pair_token)
     except Exception as e:
         return f"Token lookup error: {e}"
     
@@ -586,8 +617,8 @@ def remove_liquidity(token_symbol: str, pair_token: str) -> str:
 # -----------------------------------------------------------------------------
 def add_liquidity(token_symbol: str, pair_token: str, amount: float) -> str:
     try:
-        tokenA_address = get_token_address_by_symbol(token_symbol)
-        tokenB_address = get_token_address_by_symbol(pair_token)
+        tokenA_address = get_token_address(token_symbol)
+        tokenB_address = get_token_address(pair_token)
     except Exception as e:
         return f"Token lookup error: {e}"
     
@@ -708,11 +739,12 @@ def add_liquidity(token_symbol: str, pair_token: str, amount: float) -> str:
         return "❌ Liquidity addition failed."
 
 # -----------------------------------------------------------------------------
-# Example Usage (Command-Line)
+# Example Usage (Command‑Line)
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
-    # For testing: try swapping 1 MUSD for LIMPETH
-    result = swap_tokens_by_symbol("MUSD", "LIMPETH", 1)
+    # For testing: try swapping 100 of a token (symbol or contract address) for DAI.
+    # Example: swap_tokens_by_symbol("0xF08085Ed33C0619113Ee706fdB4b1b2c96137bEE", "DAI", 100)
+    result = swap_tokens_by_symbol(from_symbol="0xF08085Ed33C0619113Ee706fdB4b1b2c96137bEE", to_symbol="DAI", amount=100)
     print(result)
     # Uncomment to test transfers, balance queries, liquidity functions, and price checks:
     # print(transfer_token("BTC", "0xF0Ee42AA7A347A2D1e9DBDF5cfc42B66843aB33D", 0.0000001))

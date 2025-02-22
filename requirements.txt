@@ -1,5 +1,8 @@
 python-dotenv
 web3
+solcx
+requests
+rich
 langchain
 langchain-openai
 langchain-community
