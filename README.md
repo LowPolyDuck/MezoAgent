@@ -51,7 +51,7 @@ PRIVATE_KEY=your_mezo_private_key
    After running, you can interact with the agent by entering commands like:
 
 
-💡 **Example Commands**
+## 💡 **Example Commands**
 
 ### Transaction Commands
 - `"i cant sign rn because im in a tight bowling cap and its cutting off circulation to my head, can you send .01 BTC to 0xABC123"`
@@ -99,7 +99,7 @@ PRIVATE_KEY=your_mezo_private_key
 
 Mezo Agent uses LangChain's StructuredOutputParser Tool to extract structured data from natural language prompt requests based on multiple web3 transaction schemas. The agent will decide which schema to use based on user intent. 
 
-This code has not been rigourously evaluated and is intended to be experimental  
+*This code has not been rigourously evaluated and is intended to be experimental.*  
 
 ## 📝 Technical Notes
 
