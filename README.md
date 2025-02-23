@@ -24,7 +24,6 @@ A LangChain-powered Web3 AI agent that facilitates:
 
 1️⃣ Clone the Repository
 ```
-
 git clone <link coming soon>
 ```
 
