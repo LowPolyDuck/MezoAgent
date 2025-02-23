@@ -7,15 +7,19 @@ A LangChain-powered Web3 AI agent that facilitates:
 - Yield optimization
 - ERC20 token creation
 - Blend protocol interactions
+- Token balance & price checks
+- Yield analytics
 
 ## 🚀 Features
 
-- **Natural Language Processing**: Process plain English requests for crypto transactions
+- **Natural Language Processing**: Process plain English requests for crypto transactions and queries
 - **Multi-Token Support**: Handle BTC, mUSD, and custom ERC20 tokens
 - **DumpySwap Integration**: Automated token swaps and liquidity management
 - **Yield Optimization**: Automated portfolio rebalancing based on yield data
 - **Blend Protocol**: Deposit and withdraw from Blend lending markets
 - **Token Creation**: Deploy and seed new ERC20 tokens with liquidity
+- **Balance & Price Tracking**: Check token balances and current market prices
+- **Yield Analytics**: Monitor and analyze yield opportunities across protocols
 
 ## ⚡ Installation
 
@@ -40,34 +44,50 @@ PRIVATE_KEY=your_mezo_private_key
 💡 **Example Commands**
 
 ### Transaction Commands
-- `"I can't sign rn because im in a rush can you send .01 BTC to 0xABC123"`
+- `"I can't sign rn because im in a tight bowling cap and its cutting off circulation to my head, can you send .01 BTC to 0xABC123"`
   → Sends 0.01 BTC to a recipient
 
-- `"I need to pay my rent! Urgent. Send 100 mUSD to 0xABC123"`
+- `"I need to pay my mum's barber ! Urgent. Send 100 mUSD to 0xABC123"`
   → Transfers 100 mUSD to a wallet
 
-- `"im gonna get rekt if u dont swap 10 musd for btc rn"`
+- `"im gonna get rekt by NK hackzoorz if u dont swap 10 musd for btc rn"`
   → Swaps 10 mUSD for exact BTC via DumpySwap
 
+### Balance & Price Queries
+- `"bro wtf is my BTC balance?"`
+  → Shows your current BTC balance
+
+- `"how much mUSD do I have rn g?"`
+  → Displays your mUSD balance
+
+- `"gimmie the current price of BTC?"`
+  → Shows current BTC price in USD
+
 ### Yield Optimization
-- `"optimize my yield across stable coins"`
+- `"aight so optimize my yields dude"`
   → Analyzes and rebalances stable coin positions for optimal yield
 
+- `"is there cold ass yield on mUSD?"`
+  → Shows current yield rates for mUSD
+
 ### Token Creation
-- `"create a new token called MezoCoin with symbol MZC"`
+- `"create a new token called UrMum with symbol MUMZ, seed it fo me, use 69 percent of supply and like 4200 musd or summin"`
   → Deploys new ERC20 token and seeds initial liquidity
 
 ### Blend Protocol
-- `"deposit 100 USDC into Blend"`
+- `"deposit 100 USDC into Blend ok ty bb"`
   → Handles deposit into Blend lending markets
+
+### Liquidity Management
+- `"add a lil liquidity, like 10, to dat mUSD BTC pair"`
+  → Adds liquidity to DumpySwap pool
+
+- `"remove all my stupid liquidity from the dumb mUSD BTC pool"`
+  → Removes liquidity from DumpySwap pool
 
 📝 **Notes:**
 
-Mezo Agent uses LangChain's StructuredOutputParser Tool to extract structured data from natural language prompt requests based on a multiple web3 transaction schemas. The agent will decide which scehma to use based on user intent. 
-
-Currently working on more robust web3 transaction error handling for Mezo Agent
-
-Your agent key must have a mUSD loan open to use the swap tool.
+Mezo Agent uses LangChain's StructuredOutputParser Tool to extract structured data from natural language prompt requests based on multiple web3 transaction schemas. The agent will decide which schema to use based on user intent. 
 
 This code has not been rigourously evaluated and is intended to be experimental  
 
@@ -78,6 +98,8 @@ This code has not been rigourously evaluated and is intended to be experimental
 - Integrates with DumpySwap for automated market making
 - Connects to Blend protocol for lending operations
 - Includes yield optimization algorithms for portfolio management
+- Features real-time balance and price checking capabilities
+- Provides yield analytics across multiple protocols
 - Requires mUSD loan for swap functionality
 
 ## ⚠️ Disclaimer
@@ -86,6 +108,5 @@ This code is experimental and not intended for production use. Use at your own r
 
 ## 🔒 Requirements
 
-- Active mUSD loan for swap operations
 - Sufficient gas for transactions
-- Appropriate token approvals for DumpySwap interactions
+- Funny ass pants
