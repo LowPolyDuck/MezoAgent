@@ -27,11 +27,13 @@ A LangChain-powered Web3 AI agent that facilitates:
 2️⃣ Install Requirements
 
 3️⃣ Set Up Environment Variables
+```
 Create a `.env` file in the root directory:
 
 OPENAI_API_KEY=your_openai_api_key
 
 PRIVATE_KEY=your_mezo_private_key
+```
 
 🚀 **Usage**
 
