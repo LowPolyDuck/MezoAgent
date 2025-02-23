@@ -7,3 +7,4 @@ langchain
 langchain-openai
 langchain-community
 openai
+streamlit>=1.31.0

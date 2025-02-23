@@ -43,9 +43,14 @@ PRIVATE_KEY=your_mezo_private_key
 
 🚀 **Usage**
 
-   Run the Agent
+   Run the Agent with:
    ```
    python main.py
+   ```
+
+   Or use the shitty temporary frontend:
+   ```
+   streamlit run app.py
    ```
 
 
