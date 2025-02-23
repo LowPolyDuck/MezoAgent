@@ -44,10 +44,10 @@ PRIVATE_KEY=your_mezo_private_key
 💡 **Example Commands**
 
 ### Transaction Commands
-- `"I can't sign rn because im in a tight bowling cap and its cutting off circulation to my head, can you send .01 BTC to 0xABC123"`
+- `"i cant sign rn because im in a tight bowling cap and its cutting off circulation to my head, can you send .01 BTC to 0xABC123"`
   → Sends 0.01 BTC to a recipient
 
-- `"I need to pay my mum's barber ! Urgent. Send 100 mUSD to 0xABC123"`
+- `"i need to pay my mums barber! Urgent. send 100 mUSD to 0xABC123"`
   → Transfers 100 mUSD to a wallet
 
 - `"im gonna get rekt by NK hackzoorz if u dont swap 10 musd for btc rn"`
@@ -57,25 +57,25 @@ PRIVATE_KEY=your_mezo_private_key
 - `"bro wtf is my BTC balance?"`
   → Shows your current BTC balance
 
-- `"how much mUSD do I have rn g?"`
+- `"how much mUSD do i have rn g?"`
   → Displays your mUSD balance
 
 - `"gimmie the current price of BTC?"`
   → Shows current BTC price in USD
 
 ### Yield Optimization
-- `"aight so optimize my yields dude"`
+- `"aight so optimize my yields doe duh fuh"`
   → Analyzes and rebalances stable coin positions for optimal yield
 
-- `"is there cold ass yield on mUSD?"`
+- `"is there any cold ass yield on mUSD?"`
   → Shows current yield rates for mUSD
 
 ### Token Creation
-- `"create a new token called UrMum with symbol MUMZ, seed it fo me, use 69 percent of supply and like 4200 musd or summin"`
+- `"make a token called UrMum with symbol MUMZ, seed it fo me, use 69 percent of supply and like 4200 musd or summin"`
   → Deploys new ERC20 token and seeds initial liquidity
 
 ### Blend Protocol
-- `"deposit 100 USDC into Blend ok ty bb"`
+- `"deposit 100 USDC into blend ok ty bb"`
   → Handles deposit into Blend lending markets
 
 ### Liquidity Management
