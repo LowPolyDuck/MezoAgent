@@ -23,8 +23,15 @@ A LangChain-powered Web3 AI agent that facilitates:
 ## ⚡ Installation
 
 1️⃣ Clone the Repository
+```
+
+git clone <link coming soon>
+```
 
 2️⃣ Install Requirements
+```
+pip install -r requirements.txt
+```
 
 3️⃣ Set Up Environment Variables
 ```
@@ -38,6 +45,9 @@ PRIVATE_KEY=your_mezo_private_key
 🚀 **Usage**
 
    Run the Agent
+   ```
+   python main.py
+   ```
 
    After running, you can interact with the agent by entering commands like:
 
