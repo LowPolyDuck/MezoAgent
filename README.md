@@ -48,7 +48,6 @@ PRIVATE_KEY=your_mezo_private_key
    python main.py
    ```
 
-   After running, you can interact with the agent by entering commands like:
 
 
 ## 💡 **Example Commands**
