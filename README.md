@@ -119,4 +119,4 @@ This code is experimental and not intended for production use. Use at your own r
 ## 🔒 Requirements
 
 - Sufficient gas for transactions
-- Funny ass pants
+- Your funniest pants
