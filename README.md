@@ -1,8 +1,7 @@
 # Mezo Agent
 
 A LangChain-powered Web3 AI agent that facilitates:
-- Plain English BTC transactions
-- mUSD transactions 
+- Plain English transactions
 - DumpySwap token swaps
 - Yield optimization
 - ERC20 token creation
